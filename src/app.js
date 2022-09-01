@@ -5,7 +5,7 @@ export default class App{
 
     addProject(title, description, tagColor, repitiionType){
         const project = new Project(title, description, tagColor, repitiionType);
-        this.container.push(project);
+        this.projectContainer.push(project);
     }
 
     //remove project    

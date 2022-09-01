@@ -3,8 +3,13 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: rgb(249, 249, 249);
+}
+
 .header-container {
-    box-shadow: 0 0 15px rgb(192, 192, 192);
+    background-color: white;
+    box-shadow: 0 0 15px rgb(163, 163, 163);
     height: 60px;
     display: flex;
     align-items: center;
