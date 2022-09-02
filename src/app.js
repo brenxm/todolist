@@ -3,18 +3,19 @@ export default class App{
         this.projectContainer = [];
     }
 
-    addProject(title, description, tagColor, repitiionType){
-        const project = new Project(title, description, tagColor, repitiionType);
+    addProject(title, tagColor, repitiionType){
+        const project = new Project(title, tagColor, repitiionType);
         this.projectContainer.push(project);
+
+        //auto sort
     }
 
     //remove project    
 }
 
 class Project{
-    constructor(title, description, tagColor, repitiionType){
+    constructor(title, tagColor, repitiionType){
         this.title = title;
-        this.description = description;
         this.color = tagColor;
         this.repitiionType = repitiionType;     
     }

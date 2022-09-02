@@ -1,5 +1,7 @@
+import App from "./app";
+
 //initialize main structure
-export function initializeStructure(){
+export function initializeStructure() {
     return `
         <div class=header-container>
             <h1>TodoList</h1>
@@ -12,26 +14,54 @@ export function initializeStructure(){
     `
 }
 
-export function updateDomProjectList(container){
-    let accumulator = "";
-    container.map(project => {
-        const generatedElement = `
+export function updateDomProjectList(container) {
+    function generateProjectItem() {
+        if (container.length == 0) return "";
+        let allList;
+        container.map(project => {
+            const generatedElement = `
             <div class="project-single-container">
                 <div class = "project_title">${project.title}</div>
                 <div class = "project_description">${project.desciption}</div>
             </div>
         `;
+            allList += generatedElement;
+        })
+        return allList;
+    }
 
-        accumulator += generatedElement;
-    })
+    function addProjectButton() {
+        const button = document.createElement("button");
+        button.classList.add("project_add-button");
+        button.textContent = "+";
+        button.onclick = addProjectModal;
+        document.querySelector(".main-body").appendChild(button);
+    }
 
-    const addProjectButton = `
-        <div class="project_add-button-container">
-            <button onclick = >+</button>
+    document.querySelector(".main-body").innerHTML = generateProjectItem();
+    addProjectButton();
+}
+
+function addProjectModal(){
+
+    const modal = `
+        <div class="project_add-project-modal-container">
+            <div class="title-container">
+                <label>Title</label>
+                <input type="text>
+            </div>
+            <div class="tagcolor-container">
+                <label>Tag color</label>
+            </div>
+            <div class="repitition-type">
+                <div>toggle on or off here</div>
+            </div>
+            <button class="submit-add-project">Add Project</button>
         </div>
     `;
 
-    accumulator += addProjectButton;
 
-    document.querySelector(".main-body").innerHTML = accumulator;
+    document.querySelector(".main-body").innerHTML += modal;
+    const button = document.querySelector(".submit-add-projecto");
 }
+
