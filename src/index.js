@@ -7,9 +7,6 @@ import App from "./app";
 const root = document.querySelector("#content");
 root.innerHTML = initializeStructure();
 
-const mainProject = new App();
+export const application = new App();
 
-updateDomProjectList(mainProject.projectContainer);
-
-
-
+updateDomProjectList(application.projectContainer);

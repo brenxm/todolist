@@ -1,11 +1,15 @@
+import { updateDomProjectList } from "./domManipulation";
+import { application } from ".";
+
 export default class App{
     constructor(){
         this.projectContainer = [];
     }
 
-    addProject(title, tagColor, repitiionType){
+    addProject(title, tagColor, repitiionType, event){
         const project = new Project(title, tagColor, repitiionType);
         this.projectContainer.push(project);
+        updateDomProjectList(application.projectContainer);
 
         //auto sort
     }
@@ -20,3 +24,4 @@ class Project{
         this.repitiionType = repitiionType;     
     }
 }
+

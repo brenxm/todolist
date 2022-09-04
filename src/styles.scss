@@ -63,4 +63,17 @@ body {
     left: calc(50% - 100px);
     border-radius: 10px;
     box-shadow: 2px 5px 10px rgb(186, 186, 186);
+
+    .title-container {
+
+        div {
+            height: 10px;
+        }
+
+        p {
+            color: red;
+            font-size: 11.5px;
+            display: none;
+        }
+    }
 }
