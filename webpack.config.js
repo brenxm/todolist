@@ -1,9 +1,11 @@
 const path = require("path");
+const sass = require("sass");
+
 module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/i,
+                test: /\.scss$/i,
                 use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
@@ -23,3 +25,4 @@ module.exports = {
         static: "./dist"
     },
 }
+
