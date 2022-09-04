@@ -1,11 +1,10 @@
 const path = require("path");
-const sass = require("sass");
 
 module.exports = {
     module: {
         rules: [
             {
-                test: /\.scss$/i,
+                test: /\.s[ac]ss$/i,
                 use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
