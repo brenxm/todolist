@@ -2,6 +2,7 @@ import { add } from "date-fns";
 import App from "./app";
 import { application } from "./index.js";
 import { compareAsc, format } from "date-fns";
+import projectTag from "./assets/projecttag.svg";
 
 
 //initialize main structure
@@ -19,6 +20,7 @@ export function initializeStructure() {
 }
 
 export function updateDomProjectList(container) {
+    /*
     function generateProjectItem() {
         if (container.length == 0) return "";
         const str = container.reduce((accu, val) => {
@@ -34,10 +36,18 @@ export function updateDomProjectList(container) {
     };
     document.querySelector(".main-body").innerHTML = generateProjectItem();
     addProjectButton();
+    */
+   if(container.length == 0) return addProjectButton();
+   const str = container.reduce((accu, val) => {
+        const tempStr = generateProjectItem(val.title, val.color, val.repitiionType, val.taskContainer, val.dueDate);
+        return accu + tempStr;
+   }, "")
+   document.querySelector(".main-body").innerHTML = str;
+   addProjectButton();
 }
 
 function addProjectModal() {
-    let colorSelected = null;
+    let colorSelected;
     let repeated = false;
 
     const modal = `
@@ -61,7 +71,7 @@ function addProjectModal() {
                 <div>toggle on or off here</div>
                 <div class="handle-container">
                     <div class="handle-rail">
-                        ON  OFF
+                        OFF  ON
                         <div class="handle-head" id="handle-head"></div>
                     </div>
                     <div class="date-input">
@@ -78,16 +88,32 @@ function addProjectModal() {
     document.querySelector(".project_add-project-modal-container").onsubmit = formSubmit;
     const toggleHandler = document.querySelector(".handle-rail");
     toggleHandler.addEventListener("click", toggleButton);
+    const colorPickers = document.querySelectorAll(".color-picker");
+    colorPickers.forEach(picker => {
+        picker.addEventListener("click", testClick);
+    });
 
     function formSubmit(event) {
         event.preventDefault();
+
         const inputTitle = event.target[0].value;
+        const inputDate = validateDateFormat();
+        const inputTagColor = colorSelected == undefined ? "white" : colorSelected.id;
+
         validateInput(inputTitle);
 
         function validateInput(input){
-            if(input.length > 0 && input.length < 16 && validateDateFormat() ){
-                application.addProject(inputTitle, colorSelected == null ? "white": colorSelected.id, repeated);
-            } else {
+            if(input.length < 1 || input.length > 15) return invalidEntry();
+
+            if(!repeated){
+                inputDate ? console.log(true) : console.log(false);
+                return inputDate ? application.addProject(inputTitle, inputTagColor, repeated, inputDate) : invalidEntry();
+            }
+           
+            console.log("called?");
+            application.addProject(inputTitle, inputTagColor, repeated, null);
+
+            function invalidEntry(){
                 const p = document.querySelector(".xeess3");
                 p.style.display = "block";
             }
@@ -103,15 +129,10 @@ function addProjectModal() {
             valid.push(...arr.slice(8, 10));
             valid.push(..."/");
             valid.push(...arr.slice(0, 4));
-            
-            return valid;
+        
+            return valid.join("");
         }
     }
-
-    const colorPickers = document.querySelectorAll(".color-picker");
-    colorPickers.forEach(picker => {
-        picker.addEventListener("click", testClick);
-    });
 
     function testClick(event){
         if(colorSelected == null){
@@ -135,12 +156,13 @@ function addProjectModal() {
         if(head.id == toggled){
             //bringout date here
             repeated = true;
-            dateContainer.style.display = "block";
-            modalContainer.style.height = "270px";
-        } else {
-            repeated = false;
             dateContainer.style.display = "none";
             modalContainer.style.height = "240px";
+        } else {
+            repeated = false;
+          
+            dateContainer.style.display = "block";
+            modalContainer.style.height = "270px";
 
             //hide date
         }
@@ -155,3 +177,43 @@ function addProjectButton() {
     document.querySelector(".main-body").appendChild(button);
 }
 
+function generateProjectItem(title, tagColor, repitiionType, tasksContainer, dueDate){
+    console.log(dueDate);
+    function repeatedFunction(){
+        if(repitiionType){
+            return`
+                <span>repeated</span>
+            `
+        }
+
+        return `
+            <span>Due date:</span><span>${dueDate}</span>
+        `
+
+    }
+
+    function tagColor(){
+        return `   
+            <img src=${projectTag} alt="project tag" class="project-tag">
+        `
+    }
+
+    function output(){
+        return `
+            <div class="single-project-container">
+                <div class="single-project_tag-container">${tagColor()}</div>
+                <div class="single-project_title-container">
+                    <div class="title">${title}</div>
+                </div>
+                <div class="single-project_tasks-count-container">
+                    <span>Tasks:${tasksContainer.length}</span>
+                </div>
+                <div class="single-project_repeated-date-container">${repeatedFunction()}</div>
+                <div class="single-project_edit-button">edit</div>
+                <div class="single-project_delete-button">delete</div>
+            </div>
+        `
+    }
+
+    return output();
+}
