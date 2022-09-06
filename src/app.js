@@ -6,9 +6,8 @@ export default class App{
         this.projectContainer = [];
     }
 
-    addProject(title, tagColor, repitiionType, event){
-        const project = new Project(title, tagColor, repitiionType);
-        console.log(project);
+    addProject(title, tagColor, repitiionType, dueDate, event){
+        const project = new Project(title, tagColor, repitiionType, dueDate);
         this.projectContainer.push(project);
         updateDomProjectList(application.projectContainer);
 
@@ -19,11 +18,12 @@ export default class App{
 }
 
 class Project{
-    constructor(title, tagColor, repitiionType){
+    constructor(title, tagColor, repitiionType, dueDate){
         this.title = title;
         this.color = tagColor;
         this.repitiionType = repitiionType;
-        this.taskContainer = [];     
+        this.taskContainer = [];
+        this.dueDate = dueDate; 
     }
 }
 

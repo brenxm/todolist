@@ -8,12 +8,12 @@ module.exports = {
                 use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
-                test: /\.(png|jpg|jpeg|gif)$/i,
+                test: /\.(svg|png|jpg|jpeg|gif)$/i,
                 type: "asset/resource"
             },
             {
-            test: /\.svg$/i,
-            loader: "svg-inline-loader"
+                test: /\.svg/i,
+                loader: "svg-inline-loader"
             }
         ]
     },

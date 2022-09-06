@@ -14,10 +14,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
 
-.header-container h1 {
-    color: rgb(65, 90, 174);
+    .title-logo {
+        height: 30px;
+    }
 }
 
 .main-body {
@@ -150,6 +150,13 @@ body {
 
     .single-project_tag-container {
         grid-area: 1 / 1 / 4 / 2;
+
+        > * {
+            height: 80%;
+            margin: auto;
+            display: block;
+            fill: white;
+        }
     }
 
     .single-project_title-container {
@@ -178,12 +185,10 @@ body {
     .single-project_delete-button {
         grid-area: 2/5/3/6;
     }
+}
 
-    .project-tag {
-        height: 80%;
-        width: 80%;
-        display: block;
-        margin: 0 auto;
-        fill: white;
+.title-logo-container {
+    > * {
+        height: 30px;
     }
 }

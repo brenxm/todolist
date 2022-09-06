@@ -3,13 +3,14 @@ import App from "./app";
 import { application } from "./index.js";
 import { compareAsc, format } from "date-fns";
 import projectTag from "./assets/projecttag.svg";
+import titleLogo from "./assets/titlelogo.svg";
 
-
-//initialize main structure
 export function initializeStructure() {
     return `
         <div class=header-container>
-            <h1>TodoList</h1>
+            <div class="title-logo-container">
+                ${titleLogo}
+            </div>
         </div>
         <div class=main-body>
         </div>
@@ -20,25 +21,9 @@ export function initializeStructure() {
 }
 
 export function updateDomProjectList(container) {
-    /*
-    function generateProjectItem() {
-        if (container.length == 0) return "";
-        const str = container.reduce((accu, val) => {
-            const singleProject = `
-            <div class="project-single-container">
-                <div class = "project_title">${val.title}</div>
-                <div class = "project_description">${val.color}</div>
-            </div>
-        `;
-            return accu + singleProject;
-        }, "");
-        return str;
-    };
-    document.querySelector(".main-body").innerHTML = generateProjectItem();
-    addProjectButton();
-    */
    if(container.length == 0) return addProjectButton();
    const str = container.reduce((accu, val) => {
+        console.log(val.color);
         const tempStr = generateProjectItem(val.title, val.color, val.repitiionType, val.taskContainer, val.dueDate);
         return accu + tempStr;
    }, "")
@@ -50,7 +35,8 @@ function addProjectModal() {
     let colorSelected;
     let repeated = false;
 
-    const modal = `
+    function output(){
+        const modal = `
         <form class="project_add-project-modal-container">
             <div class="title-container">
                 <label>Title</label>
@@ -60,10 +46,10 @@ function addProjectModal() {
             <div class="tagcolor-container">
                 <label>Tag color</label>
                 <div class="color-container">
-                    <div style="background-color: red" class="color-picker" id="red"></div>
-                    <div style="background-color: blue"class="color-picker" id="blue"></div>
-                    <div style="background-color: green"class="color-picker" id="green"></div>
-                    <div style="background-color: yellow"class="color-picker" id="yellow"></div>
+                    <div style="background-color: red" class="color-picker" id="ff2503"></div>
+                    <div style="background-color: blue"class="color-picker" id="499cff"></div>
+                    <div style="background-color: green"class="color-picker" id="14ff92"></div>
+                    <div style="background-color: yellow"class="color-picker" id="e3ff35"></div>
                     <div style="background-color: red"class="color-picker" id="custom"></div>
                 </div>
             </div>
@@ -83,8 +69,10 @@ function addProjectModal() {
             <button class="submit-add-project">Add Project</button>
         </form>
     `;
+        document.querySelector(".main-body").innerHTML += modal;
+    }
 
-    document.querySelector(".main-body").innerHTML += modal;
+    output();
     document.querySelector(".project_add-project-modal-container").onsubmit = formSubmit;
     const toggleHandler = document.querySelector(".handle-rail");
     toggleHandler.addEventListener("click", toggleButton);
@@ -179,37 +167,30 @@ function addProjectButton() {
 }
 
 function generateProjectItem(title, tagColor, repitiionType, tasksContainer, dueDate){
-    console.log(dueDate);
-    function repeatedFunction(){
-        if(repitiionType){
-            return`
-                <span>repeated</span>
-            `
-        }
-
-        return `
-            <span>Due date:</span><span>${dueDate}</span>
-        `
-
+    function accessProjectTasks(){
+        //opening the task
+        console.log("clicked this");
     }
 
-    function tagColor(){
-        return `   
-            <img src=${projectTag} alt="project tag" class="project-tag">
-        `
-    }
-
+   function tag(){
+    const thisTag = projectTag;
+    const regex = /(?<=fill:#).+?\;/i;
+    const text = thisTag.replace(regex, `${tagColor}`);
+    return text;
+   }
     function output(){
         return `
             <div class="single-project-container">
-                <div class="single-project_tag-container">${tagColor()}</div>
+                <div class="single-project_tag-container">
+                ${tag()}  
+                </div>
                 <div class="single-project_title-container">
                     <div class="title">${title}</div>
                 </div>
                 <div class="single-project_tasks-count-container">
                     <span>Tasks:${tasksContainer.length}</span>
                 </div>
-                <div class="single-project_repeated-date-container">${repeatedFunction()}</div>
+                <div class="single-project_repeated-date-container">${repitiionType ? "<span>repeated</span>" : "<span>Due date:"+ dueDate +"</span>" }</div>
                 <div class="single-project_edit-button">edit</div>
                 <div class="single-project_delete-button">delete</div>
             </div>
