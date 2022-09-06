@@ -4,6 +4,8 @@ import { application } from "./index.js";
 import { compareAsc, format } from "date-fns";
 import projectTag from "./assets/projecttag.svg";
 import titleLogo from "./assets/titlelogo.svg";
+import deleteIcon from "./assets/trashicon.png";
+import editIcon from "./assets/editicon.png";
 
 export function initializeStructure() {
     return `
@@ -172,18 +174,11 @@ function generateProjectItem(title, tagColor, repitiionType, tasksContainer, due
         console.log("clicked this");
     }
 
-   function tag(){
-    const thisTag = projectTag;
-    const regex = /(?<=fill:#).+?\;/i;
-    const text = thisTag.replace(regex, `${tagColor}`);
-    return text;
-   }
     function output(){
         return `
             <div class="single-project-container">
-                <div class="single-project_tag-container">
-                ${tag()}  
-                </div>
+                ${new TagIcon(`${tagColor}`).renderIcon()}
+
                 <div class="single-project_title-container">
                     <div class="title">${title}</div>
                 </div>
@@ -191,11 +186,41 @@ function generateProjectItem(title, tagColor, repitiionType, tasksContainer, due
                     <span>Tasks:${tasksContainer.length}</span>
                 </div>
                 <div class="single-project_repeated-date-container">${repitiionType ? "<span>repeated</span>" : "<span>Due date:"+ dueDate +"</span>" }</div>
-                <div class="single-project_edit-button">edit</div>
-                <div class="single-project_delete-button">delete</div>
+                <div class="single-project_edit-button"><img src=${editIcon}></div>
+                <div class="single-project_delete-button"><img src=${deleteIcon}></div>
             </div>
         `
     }
 
     return output();
+}
+
+class TagIcon{
+    constructor(colorSelected){
+        this.customColor = colorSelected;
+        this.class = "";
+        this.id = "";
+        this.svgFile = projectTag;
+    }
+
+    generateCustomClass(){
+        this.class = Math.random() * 10000;
+        this.id = Math.random() * 10000;
+        this.svgFile = this.svgFile.replace("Layer_2", this.id);
+        this.svgFile = this.svgFile.replace("cls-1", this.class);
+        this.svgFile = this.svgFile.replace("cls-1", this.class);
+    }
+
+    updateSvgColor(){
+        const testTer = document.createElement("div");
+        testTer.innerHTML = this.svgFile;
+        const regex = /(?<={fill:#).*?;/i;
+        this.svgFile = this.svgFile.replace(regex, this.customColor + ";");
+    }
+
+    renderIcon(){
+        this.generateCustomClass();
+        this.updateSvgColor();
+        return `<div class="single-project_tag-container" style="fill:#${this.customColor}">${this.svgFile}</div>`;
+    }
 }

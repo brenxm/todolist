@@ -9,7 +9,7 @@ export default class App{
     addProject(title, tagColor, repitiionType, dueDate, event){
         const project = new Project(title, tagColor, repitiionType, dueDate);
         this.projectContainer.push(project);
-        updateDomProjectList(application.projectContainer);
+        updateDomProjectList(this.projectContainer);
 
         //auto sort
     }

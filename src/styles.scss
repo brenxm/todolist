@@ -155,7 +155,6 @@ body {
             height: 80%;
             margin: auto;
             display: block;
-            fill: white;
         }
     }
 
@@ -180,10 +179,16 @@ body {
 
     .single-project_edit-button {
         grid-area: 2/4/3/5;
+        img {
+                width: 25px;
+            }
     }
 
     .single-project_delete-button {
         grid-area: 2/5/3/6;
+        img {
+            width: 25px;
+        }
     }
 }
 
