@@ -108,6 +108,7 @@ function addProjectModal() {
             if(!repeated){
                 inputDate ? console.log(true) : console.log(false);
                 return inputDate ? application.addProject(inputTitle, inputTagColor, repeated, inputDate) : invalidEntry();
+                
             }
            
             console.log("called?");
