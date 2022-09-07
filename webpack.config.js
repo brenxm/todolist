@@ -14,7 +14,12 @@ module.exports = {
             {
                 test: /\.svg/i,
                 loader: "svg-inline-loader"
+            },
+            {
+                test: /\.ttf$/i,
+                type: "asset/resource"
             }
+
         ]
     },
     mode: "development",

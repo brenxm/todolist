@@ -1,3 +1,9 @@
+@font-face {
+    font-family: mainFont;
+    src: url("./assets/josefinsans.ttf") format("woff");
+}
+$projectTitleSubColor:rgb(103, 103, 103);
+
 * {
     margin: 0;
     box-sizing: border-box;
@@ -150,6 +156,7 @@ body {
 
     .single-project_tag-container {
         grid-area: 1 / 1 / 4 / 2;
+        pointer-events: none;
 
         > * {
             height: 80%;
@@ -159,6 +166,7 @@ body {
     }
 
     .single-project_title-container {
+        pointer-events: none;
         grid-area: 1/2/3/4;
         display: flex;
         align-items: center;
@@ -166,15 +174,44 @@ body {
 
         .title {
             font-size: 23px;
+            color: rgb(59, 59, 59);
+            font-family: "mainFont";
         }
     }
 
     .single-project_tasks-count-container {
+        pointer-events: none;
         grid-area: 3/2/4/3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+
+        .sptcc1 {
+            color: $projectTitleSubColor;
+            font-size: 13px;
+            font-family: "mainFont";
+        }
+
+        .sptcc2 {
+            font-weight: 600;
+            color: rgb(172, 109, 20);
+            font-family: "mainFont";
+        }
     }
 
     .single-project_repeated-date-container {
+        pointer-events: none;
         grid-area: 3/3/4/4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span {
+            color: $projectTitleSubColor;
+            font-size: 14px;
+            font-family: "mainFont";
+        }
     }
 
     .single-project_edit-button {

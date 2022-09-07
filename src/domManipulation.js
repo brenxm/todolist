@@ -25,11 +25,16 @@ export function initializeStructure() {
 export function updateDomProjectList(container) {
    if(container.length == 0) return addProjectButton();
    const str = container.reduce((accu, val) => {
-        console.log(val.color);
         const tempStr = generateProjectItem(val.title, val.color, val.repitiionType, val.taskContainer, val.dueDate);
+        const element = new DOMParser().parseFromString(tempStr, "text/xml");
+        console.log(element);
         return accu + tempStr;
    }, "")
    document.querySelector(".main-body").innerHTML = str;
+   const projectElements = document.querySelectorAll(".single-project-container");
+   projectElements.forEach(elem => {
+        elem.addEventListener("click", (event)=>{console.log(event.target)});
+   })
    addProjectButton();
 }
 
@@ -183,7 +188,8 @@ function generateProjectItem(title, tagColor, repitiionType, tasksContainer, due
                     <div class="title">${title}</div>
                 </div>
                 <div class="single-project_tasks-count-container">
-                    <span>Tasks:${tasksContainer.length}</span>
+                    <span class="sptcc1">Tasks:</span>
+                    <span class="sptcc2">${tasksContainer.length}</span>
                 </div>
                 <div class="single-project_repeated-date-container">${repitiionType ? "<span>repeated</span>" : "<span>Due date:"+ dueDate +"</span>" }</div>
                 <div class="single-project_edit-button"><img src=${editIcon}></div>
