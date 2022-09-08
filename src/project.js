@@ -25,6 +25,7 @@ class Project{
         this.repitiionType = repitiionType;
         this.taskContainer = [];
         this.dueDate = dueDate; 
+        this.completed = 0;
     }
 }
 

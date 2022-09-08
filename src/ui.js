@@ -26,6 +26,7 @@ export class Ui {
 
   static openProject(project) {
     this.clearContent();
+    this.tasksHeader(project);
     if (project.taskContainer.length == 0) Ui.appendAddBtn();
     const str = project.taskContainer.reduce((accu, val) => `${accu}<div>${val.taskTxt}</div>`, '');
   }
@@ -52,6 +53,25 @@ export class Ui {
 
   static clearContent() {
     document.querySelector('.main-body').innerHTML = '';
+  }
+
+  static tasksHeader(project){
+    const mainHd = document.querySelector(".header-container");
+    mainHd.innerHTML = `
+        <span>${project.title}</span>
+        <span class="info-container">
+          <div>
+            ${project.dueDate}
+          </div>
+          <div>
+            tasks:${project.taskContainer.length}
+          </div>
+          <div>
+            completedTask:${project.completedTask};
+          </div>
+
+        </span>
+    `
   }
 }
 
