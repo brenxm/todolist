@@ -1,14 +1,9 @@
-import "./styles.scss";
-import { compareAsc, format } from "date-fns";
-import { initializeStructure, updateDomProjectList } from "./domManipulation";
-import App from "./app";
-import projectTag from "./assets/projecttag.svg";
-import titleLogo from "./assets/titlelogo.svg";
+import './styles.scss';
+import { initializeStructure, updateDomProjectList, Ui } from './ui';
+import App from './project';
 
-
-const root = document.querySelector("#content");
-root.innerHTML = initializeStructure();
-
+Ui.initializeApp();
 export const application = new App();
 
 updateDomProjectList(application.projectContainer);
+   
