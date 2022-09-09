@@ -27,7 +27,7 @@ export class Ui {
   static openProject(project) {
     this.clearContent();
     this.tasksHeader(project);
-    if (project.taskContainer.length == 0) Ui.appendAddBtn();
+    if (project.taskContainer.length == 0) Ui.apendTaskBtn();
     const str = project.taskContainer.reduce((accu, val) => `${accu}<div>${val.taskTxt}</div>`, '');
   }
 
@@ -58,6 +58,34 @@ export class Ui {
     btn.textContent = "+";
     mainContent.appendChild(btn);
     btn.addEventListener("click", addProjectModal)
+  }
+
+  static apendTaskBtn(){
+    const mainBody = document.querySelector(".main-body");
+    const str = `
+      <div class="task-container">
+        <button class="task-add-btn">Add Task</button> 
+      </div>
+    `
+    mainBody.innerHTML += str;
+    const btn = document.querySelector(".task-add-btn");
+    btn.addEventListener("click", (event)=>{
+      Ui.toggleTaskInput(event);
+    })
+  }
+
+  static toggleTaskInput(event){
+    const btnParent = event.target.parentElement;
+    btnParent.removeChild(event.target);
+    btnParent.innerHTML = `
+      <input class="check-btn" type="checkbox">
+      <input class="task-inpt" type="text" placeholder="What am I doing?">
+      <div class="task-due-date">
+        <span>Due: </span><span>${console.log('somedue daute here')}</span>
+      </div>
+    `
+    const inpt = btnParent.children[1];
+    inpt.focus();
   }
 
   static pullProject(uid) {
