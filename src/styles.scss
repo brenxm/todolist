@@ -24,6 +24,66 @@ body {
     .title-logo {
         height: 30px;
     }
+
+    .title-info-hd{
+        display: flex;
+        height: 100%;
+        width: 100%;
+
+        .return-btn-container {
+            width: 40px;
+            display: flex;
+            align-items: center;
+
+            > button {
+                display: block;
+                margin: auto;
+                height: 17px;
+                width: 17px; 
+                padding: 0;
+                border: none;
+                background-color: transparent;
+                
+                > img {
+                    height: 100%;
+                }
+            }
+        }
+
+        .title {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "mainFont";
+            color: dodgerblue;
+
+            > * {
+                font-size: 40px;
+
+            }
+        }
+
+        .info-container {
+            width: 100px;
+            font-family: "mainFont";
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            font-size: 12px;
+            color: rgb(67, 67, 67);
+
+            .header_task-count {
+                font-weight: 600;
+                color: orange;
+            }
+
+            .header_completed-task {
+                font-weight: 600;
+                color: green;
+            }
+        }
+    }
 }
 
 .main-body {
@@ -57,27 +117,35 @@ body {
     background-color: dodgerblue;
     display: block;
     margin: 0 auto;
+    border-radius: 5px;
 }
 
 .project_add-project-modal-container {
-    height: 250px;
-    width: 200px;
+    width: 250px;
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 10px;
-    padding-top: 20px;
+    padding: 30px;
     position: absolute;
-    left: calc(50% - 100px);
+    left: calc(50% - 125px);
     border-radius: 10px;
     box-shadow: 2px 5px 10px rgb(186, 186, 186);
     transition: 0.3s;
+    font-size: 13px;
+    font-family: "mainFont";
+    gap: 20px;
 
     .title-container {
 
         div {
             height: 10px;
+        }
+
+        input {
+            background-color: rgb(217, 217, 217);
+            border: none;
+            border-radius: 5px;
         }
 
         p {
@@ -87,9 +155,29 @@ body {
         }
     }
 
-    .submit-add-project {
-        transition: 0.3s;
+    .button-container {
+        display: flex;
+        gap: 5px;
+        .submit-add-project {
+                transition: 0.3s;
+                background-color: dodgerblue;
+                border: none;
+                color: white;
+                font-family: "mainFont";
+                padding: 10px;
+                width: auto;
+                border-radius: 5px;
+                flex: 1;
+            }
+
+        .cancel-add-project {
+            @extend .submit-add-project;
+            background-color: rgb(225, 71, 68);
+            flex: 0.2;
+        }
     }
+
+    
 }
 
 .color-container {
@@ -102,7 +190,6 @@ body {
         border-radius: 50%;
         background-color: blue;
         cursor: pointer;
-        border: 1px solid black;
     }
 
     .color-picker--selected {
@@ -115,19 +202,18 @@ body {
     .handle-container {
         .handle-rail {
             height: 20px;
-            width: 60px;
-            background-color: dodgerblue;
+            width: 50px;
+            background-color: rgb(204, 204, 204);
             border-radius: 20px;
             cursor: pointer;
         }
 
         #handle-head {
             height: 20px;
-            width: 30px;
+            width: 20px;
             border-radius: 20px;
-            background-color: red;
+            background-color: white;
             position: relative;
-            top: -18px;
             pointer-events: none;
             transition: 0.3s;
             right: -30px;
@@ -142,6 +228,7 @@ body {
             display: block;
         }
     }
+
 }
 
 .single-project-container {

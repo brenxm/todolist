@@ -1,7 +1,7 @@
 import { add, compareAsc, format } from 'date-fns';
 import App from './project';
 import { application } from './index.js';
-
+import returnBtnIcon from "./assets/returnbtn.png"
 import projectTag from './assets/projecttag.svg';
 import titleLogo from './assets/titlelogo.svg';
 import deleteIcon from './assets/trashicon.png';
@@ -31,18 +31,33 @@ export class Ui {
     const str = project.taskContainer.reduce((accu, val) => `${accu}<div>${val.taskTxt}</div>`, '');
   }
 
-  static displayProjectLst(project) {
-    const dom = document.querySelector('#content');
-    dom = '';
+  static displayProjectLst() {
+    const mainContent = document.querySelector(".main-body");
+    if (application.projectContainer.length == 0) {
+      mainContent.innerHTML = "";
+    } else {
+      const str = application.projectContainer.reduce((acc, val) => acc + generateProjectItem(val), "");
+      mainContent.innerHTML = str;
+      
+      const projs = document.querySelectorAll(".single-project-container");
+      
+      projs.forEach(elem => elem.addEventListener(
+        "click", (event) => {Ui.pullProject(event.target.getAttribute("data-id"))}
+      ))
+    }
+   
+    Ui.appendAddBtn();
+    Ui.homeHeader();
+    
   }
 
   static appendAddBtn() {
     const mainContent = document.querySelector('.main-body');
-    mainContent.innerHTML += '<button class="project_add-button">+</button>';
-    const addBtn = document.querySelector('.project_add-button');
-    addBtn.addEventListener('click', () => {
-      console.log('clicked button');
-    });
+    const btn = document.createElement("button");
+    btn.classList.add("project_add-button");
+    btn.textContent = "+";
+    mainContent.appendChild(btn);
+    btn.addEventListener("click", addProjectModal)
   }
 
   static pullProject(uid) {
@@ -55,30 +70,63 @@ export class Ui {
     document.querySelector('.main-body').innerHTML = '';
   }
 
-  static tasksHeader(project){
+  static tasksHeader(project) {
     const mainHd = document.querySelector(".header-container");
     mainHd.innerHTML = `
-        <span>${project.title}</span>
-        <span class="info-container">
-          <div>
-            ${project.dueDate}
+        <div class="title-info-hd">
+          <div class="return-btn-container">
+            <button class="return-btn"><img src=${returnBtnIcon} alt="return button"></button>
           </div>
-          <div>
-            tasks:${project.taskContainer.length}
+          <div class="title"><div>${project.title}</div></div>
+          <div class="info-container">
+            <div>
+              due: ${project.dueDate}
+            </div>
+            <div>
+              <span>tasks:</span> <span class="header_task-count"> ${project.taskContainer.length}</span>
+            </div>
+            <div>
+              <span>completedTask:</span> <span class="header_completed-task"> ${project.completedTask}</span>
+            </div>
           </div>
-          <div>
-            completedTask:${project.completedTask};
-          </div>
+        </div>
+    `
+    const returnBtn = document.querySelector(".return-btn");
+    returnBtn.addEventListener("click", Ui.displayProjectLst);
+  }
 
-        </span>
+  static appendModalBtns() {
+    document.querySelector(".button-container").innerHTML = `
+      <button class="submit-add-project">Add Project</button>
+      <button class="cancel-add-project">Cancel</button>
+    `
+    const cancelBtn = document.querySelector(".cancel-add-project");
+
+    //toggle modal
+    cancelBtn.addEventListener("click", () => {
+      console.log("called");
+    });
+  }
+
+  static homeHeader() {
+    const hd = document.querySelector(".header-container");
+    hd.innerHTML = `
+      <div class="title-logo-container">
+        ${titleLogo}
+      </div>
     `
   }
+
+  static clickTest(){
+    console.log("clicker");
+  }
+
 }
 
 export function updateDomProjectList(container) {
   if (container.length == 0) return addProjectButton();
   const str = container.reduce((accu, val) => {
-    const tempStr = generateProjectItem(val.title, val.color, val.repitiionType, val.taskContainer, val.dueDate, val.uid);
+    const tempStr = generateProjectItem(val);
     return accu + tempStr;
   }, '');
   document.querySelector('.main-body').innerHTML = str;
@@ -104,30 +152,31 @@ function addProjectModal() {
             <div class="tagcolor-container">
                 <label>Tag color</label>
                 <div class="color-container">
-                    <div style="background-color: red" class="color-picker" id="ff2503"></div>
-                    <div style="background-color: blue"class="color-picker" id="499cff"></div>
-                    <div style="background-color: green"class="color-picker" id="14ff92"></div>
-                    <div style="background-color: yellow"class="color-picker" id="e3ff35"></div>
+                    <div style="background-color: #ff2503" class="color-picker" id="ff2503"></div>
+                    <div style="background-color: #499cff"class="color-picker" id="499cff"></div>
+                    <div style="background-color: #14ff92"class="color-picker" id="14ff92"></div>
+                    <div style="background-color: #e3ff35"class="color-picker" id="e3ff35"></div>
                     <div style="background-color: red"class="color-picker" id="custom"></div>
                 </div>
             </div>
             <div class="repitition-type">
-                <div>toggle on or off here</div>
-                <div class="handle-container">
+                <span>toggle on or off here</span>
+                <span class="handle-container">
                     <div class="handle-rail">
-                        OFF  ON
                         <div class="handle-head" id="handle-head"></div>
                     </div>
                     <div class="date-input">
                         <label>Due date</label>
                         <input class ="date-input-value"type="date">
                     </div>
-                </div>
+                </span>
             </div>
-            <button class="submit-add-project">Add Project</button>
+              <div class="button-container">
+              </div>
         </form>
     `;
     document.querySelector('.main-body').innerHTML += modal;
+    Ui.appendModalBtns();
   }
 
   output();
@@ -207,12 +256,12 @@ function addProjectModal() {
       // bringout date here
       repeated = true;
       dateContainer.style.display = 'none';
-      modalContainer.style.height = '240px';
+      modalContainer.style.height = '260px';
     } else {
       repeated = false;
 
       dateContainer.style.display = 'block';
-      modalContainer.style.height = '270px';
+      modalContainer.style.height = '280px';
 
       // hide date
     }
@@ -227,23 +276,20 @@ function addProjectButton() {
   document.querySelector('.main-body').appendChild(button);
 }
 
-function generateProjectItem(title, tagColor, repitiionType, tasksContainer, dueDate, uid) {
-  function accessProjectTasks() {
-  }
-
+function generateProjectItem(project) {
   function output() {
     return `
-            <div class="single-project-container" data-id="${uid}">
-                ${new TagIcon(`${tagColor}`).renderIcon()}
+            <div class="single-project-container" data-id="${project.uid}">
+                ${new TagIcon(`${project.color}`).renderIcon()}
 
                 <div class="single-project_title-container" >
-                    <div class="title" ">${title}</div>
+                    <div class="title" ">${project.title}</div>
                 </div>
                 <div class="single-project_tasks-count-container">
                     <span class="sptcc1">Tasks:</span>
-                    <span class="sptcc2">${tasksContainer.length}</span>
+                    <span class="sptcc2">${project.taskContainer.length}</span>
                 </div>
-                <div class="single-project_repeated-date-container">${repitiionType ? '<span>repeated</span>' : `<span>Due date:${dueDate}</span>`}</div>
+                <div class="single-project_repeated-date-container">${project.repitiionType ? '<span>repeated</span>' : `<span>Due date:${project.dueDate}</span>`}</div>
                 <div class="single-project_edit-button"><img src=${editIcon}></div>
                 <div class="single-project_delete-button"><img src=${deleteIcon}></div>
             </div>
